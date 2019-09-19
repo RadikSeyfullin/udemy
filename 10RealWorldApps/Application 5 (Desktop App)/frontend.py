@@ -1,5 +1,7 @@
 from tkinter import *
-import backend
+from backend import Database
+
+database = Database()
 
 def get_selected_row(event):
     try:
@@ -19,25 +21,25 @@ def get_selected_row(event):
 
 def view_command():
     list1.delete(0, END)
-    for row in backend.view():
+    for row in database.view():
         list1.insert(END, row)
 
 def search_command():
     list1.delete(0, END)
-    for row in backend.search(title_var.get(), author_var.get(), year_var.get(), isbn_var.get()):
+    for row in database.search(title_var.get(), author_var.get(), year_var.get(), isbn_var.get()):
         list1.insert(END, row)
 
 def insert_command():
     list1.delete(0, END)
-    backend.insert(title_var.get(), author_var.get(), year_var.get(), isbn_var.get())
+    database.insert(title_var.get(), author_var.get(), year_var.get(), isbn_var.get())
     list1.insert(END, (title_var.get(), author_var.get(), year_var.get(), isbn_var.get()))
 
 def delete_command():
-    backend.delete(selected_tuple[0])
+    database.delete(selected_tuple[0])
     view_command()
 
 def update_command():
-    backend.update(selected_tuple[0], title_var.get(), author_var.get(), year_var.get(), isbn_var.get())
+    database.update(selected_tuple[0], title_var.get(), author_var.get(), year_var.get(), isbn_var.get())
     view_command()
 
 window = Tk()
@@ -102,7 +104,7 @@ b4.grid(row=5, column=3)
 b5 = Button(window, text="Delete", width=12, command=delete_command)
 b5.grid(row=6, column=3)
 
-b6 = Button(window, text="Close", width=12)
+b6 = Button(window, text="Close", width=12, command=window.destroy)
 b6.grid(row=7, column=3)
 
 window.mainloop()
